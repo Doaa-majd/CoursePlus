@@ -4,4 +4,10 @@
 ### Main features and functionalities:
 
 - Add auth ui.
+- Add passport with these keys:
+    Client ID: 1
+    Client secret: Cp1bcPUuhsAKGunXQuvLdjsHoEmOa5COCXZpR9JG
+    Client ID: 2
+    Client secret: uNxJ3pWmI3FgEe4ljYuQ3MWMdFDRpv0HyaK1q5Gq
+ - ..
 
