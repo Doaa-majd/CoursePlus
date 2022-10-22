@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Courses;
 
-use App\Models\Video;
 use App\Models\Lesson;
-use App\Enums\LessonType;
 use Illuminate\Support\Facades\Storage;
 
 class LessonService

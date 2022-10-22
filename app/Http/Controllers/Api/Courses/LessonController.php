@@ -20,9 +20,9 @@ class LessonController extends Controller
     public function store(LessonStoreRequest $request)
     {
         $data = $request->validated();
-        $lessonId = $this->lessonService->storeLesson($data);
+        $lesson = $this->lessonService->storeLesson($data);
         return response()->json([
-            'id' => $lessonId->id
+            'id' => $lesson->id
         ], 201);
     }
 
