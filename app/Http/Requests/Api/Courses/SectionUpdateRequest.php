@@ -25,7 +25,8 @@ class SectionUpdateRequest extends FormRequest
     {
         return [
             'course_id' => 'required|numeric|exists:courses,id',
-            'name' => 'required|string|max:255|min:3'
+            'name' => 'required|string|max:255|min:3',
+            'section_id' => 'nullable|numeric|exists:sections,id'
         ];
     }
 }

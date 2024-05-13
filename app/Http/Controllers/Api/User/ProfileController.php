@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\User\ProfileService;
+use App\Services\Users\ProfileService;
 use App\Http\Resources\Api\ProfileResource;
 
 class ProfileController extends Controller

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Laravel\Passport\Passport;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Category;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
         Passport::routes();
 
         Passport::tokensExpireIn(now()->addDays(15));
+        view()->share('categories', Category::all());
     }
 }

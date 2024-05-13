@@ -67,4 +67,16 @@ class VideoService
         $pathParts = pathinfo($path);
         Storage::disk($disk)->deleteDirectory($pathParts['dirname']);
     }
+
+    public function uploadVideoBase64(array $data)
+    {
+        if (preg_match('/^data:video\/(\w+);base64,/', $data['video'])) { //check if type video
+            $name = 'Course-' . $data['course_id'] . '-' . $data['name'] . '.' . explode('/', explode(':', substr($data['video'], 0, strpos($data['video'], ';')))[1])[1];
+            $videoData = substr($data['video'], strpos($data['video'], ',') + 1);
+
+            $videoData = base64_decode($videoData);
+            \Storage::disk('videos')->put($name, $videoData);
+        }
+        return $name;
+    }
 }

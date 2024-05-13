@@ -3,24 +3,24 @@
 namespace App\Http\Controllers\Api\Courses;
 
 use App\Http\Controllers\Controller;
-use App\Services\Courses\LessonService;
+use App\Services\Courses\VideoLessonService;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Api\Courses\LessonStoreRequest;
 use App\Http\Requests\Api\Courses\LessonUpdateRequest;
 
 class LessonController extends Controller
 {
-    protected $lessonService;
+    protected $videoLessonService;
 
-    public function __construct(LessonService $lessonService)
+    public function __construct(VideoLessonService $videoLessonService)
     {
-        $this->lessonService = $lessonService;
+        $this->videoLessonService = $videoLessonService;
     }
 
     public function store(LessonStoreRequest $request)
     {
         $data = $request->validated();
-        $lesson = $this->lessonService->storeLesson($data);
+        $lesson = $this->videoLessonService->storeLesson($data);
         return response()->json([
             'id' => $lesson->id
         ], 201);
@@ -29,7 +29,7 @@ class LessonController extends Controller
     public function show(int $id)
     {
         $this->validateId($id);
-        $lessonId = $this->lessonService->getLessonById($id);
+        $lessonId = $this->videoLessonService->getLessonById($id);
         return response()->json([
             'id' => $lessonId
         ], 201);
@@ -39,14 +39,14 @@ class LessonController extends Controller
     {
         $this->validateId($id);
         $data = $request->validated();
-        $this->lessonService->updateLesson($data, $id);
+        $this->videoLessonService->updateLesson($data, $id);
         return response()->json([]);
     }
 
     public function destroy(int $lessonId)
     {
         $this->validateId($lessonId);
-        $this->lessonService->delete($lessonId);
+        $this->videoLessonService->delete($lessonId);
         return response()->json([], 204);
     }
 

@@ -11,7 +11,7 @@ class CategoryService
 {
     public function getCategories(): Collection
     {
-        return Category::with('childrenRecursive')->whereNull('parent_id')->get();
+        return Category::whereNull('parent_id')->get();
     }
 
     public function store(array $data): Category

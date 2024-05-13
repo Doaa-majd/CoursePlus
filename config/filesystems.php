@@ -39,9 +39,15 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
+        ],
+
+        'images' => [
+            'driver' => 'local',
+            'root' => public_path('images'),
+            'visibility' => 'public',
         ],
 
         'videos-temp' => [
@@ -55,6 +61,11 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/videos'),
             'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+        'pdf' => [
+            'driver' => 'local',
+            'root' => public_path('pdfs'),
             'visibility' => 'public',
         ],
 

@@ -31,4 +31,14 @@ class SectionService
         $section = Section::FindOrFail($id);
         $section->delete();
     }
+
+    // web
+    public function updateSection(array $data): void
+    {
+        $section = Section::FindOrFail($data['section_id']);
+        $section->update([
+            'course_id' => $data['course_id'],
+            'name' => $data['name']
+        ]);
+    }
 }

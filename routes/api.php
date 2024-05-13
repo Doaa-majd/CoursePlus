@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Courses\VideoController;
 use App\Http\Controllers\Api\Courses\LessonController;
+use App\Http\Controllers\Api\Courses\CourseController;
 use App\Http\Controllers\Api\Auth\VerificationController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\Auth\ForgotPasswordController;
@@ -59,5 +60,13 @@ Route::group([
     Route::post('/', [CategoryController::class, 'store']);
     Route::put('/{id}', [CategoryController::class, 'update']);
     Route::delete('/{id}', [CategoryController::class, 'destroy']);
+});
 
+Route::group([
+    'prefix' => '/Courses',
+], function () {
+    Route::get('/', [CourseController::class, 'index']);
+    Route::post('/', [CourseController::class, 'store']);
+    Route::put('/{id}', [CourseController::class, 'update']);
+    Route::delete('/{id}', [CourseController::class, 'destroy']);
 });
