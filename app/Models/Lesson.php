@@ -12,9 +12,11 @@ class Lesson extends Model
     protected $guarded = [];
 
     public const VIDEO_TYPE = 'video';
+    public const PDF_TYPE = 'pdf';
 
     public const LESSONABLE_TYPE = [
-        self::VIDEO_TYPE => 'App\Models\Video'
+        self::VIDEO_TYPE => 'App\Models\Video',
+        self::PDF_TYPE => 'App\Models\Pdf'
     ];
 
     public function course()
@@ -30,5 +32,10 @@ class Lesson extends Model
     public function lessonable()
     {
         return $this->morphTo();
+    }
+
+    public function lessonUsers()
+    {
+        return $this->hasMany(LessonUser::class);
     }
 }

@@ -15,6 +15,10 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public const INSTRUCTOR = 'instructor';
+    public const STUDENT = 'student';
+    public const ADMIN = 'admin';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -61,4 +65,28 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Profile::class, 'user_id', 'id')->withDefault();
     }
 
+    public function courseUsers()
+    {
+        return $this->hasMany(CourseUser::class);
+    }
+
+    public function lessonUsers()
+    {
+        return $this->hasMany(LessonUser::class);
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'user_id', 'id');
+    }
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

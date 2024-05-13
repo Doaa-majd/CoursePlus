@@ -6,9 +6,11 @@ use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Courses\VideoController;
 use App\Http\Controllers\Api\Courses\LessonController;
+use App\Http\Controllers\Api\Courses\CourseController;
 use App\Http\Controllers\Api\Auth\VerificationController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\Auth\ForgotPasswordController;
+use App\Http\Controllers\Api\Categories\CategoryController;
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', [LoginController::class, 'logout']);
@@ -41,4 +43,30 @@ Route::group([
     Route::post('/', [VideoController::class, 'store']);
     Route::post('/{id}', [VideoController::class, 'update']);
     Route::delete('/{id}', [VideoController::class, 'destroy']);
+});
+
+Route::group([
+    'prefix' => '/Sections',
+], function () {
+    Route::post('/', [SectionController::class, 'store']);
+    Route::put('/{id}', [SectionController::class, 'update']);
+    Route::delete('/{id}', [SectionController::class, 'destroy']);
+});
+
+Route::group([
+    'prefix' => '/Categories',
+], function () {
+    Route::get('/', [CategoryController::class, 'index']);
+    Route::post('/', [CategoryController::class, 'store']);
+    Route::put('/{id}', [CategoryController::class, 'update']);
+    Route::delete('/{id}', [CategoryController::class, 'destroy']);
+});
+
+Route::group([
+    'prefix' => '/Courses',
+], function () {
+    Route::get('/', [CourseController::class, 'index']);
+    Route::post('/', [CourseController::class, 'store']);
+    Route::put('/{id}', [CourseController::class, 'update']);
+    Route::delete('/{id}', [CourseController::class, 'destroy']);
 });
