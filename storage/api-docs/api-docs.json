@@ -1,0 +1,419 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "L5 OpenApi",
+        "description": "L5 Swagger OpenApi description",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "description": "Login",
+                "operationId": "51f19b43fcc57cc73a593886338f7055",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success of operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token_type": {
+                                            "type": "string"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "token_expires_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "user_id": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "description": "Register",
+                "operationId": "5346f779db50fbeb62e2b9659d369600",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success of operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "token_expires_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "user_id": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get all categories",
+                "description": "Get all categories",
+                "operationId": "0da03ffec3c19cbf0730d741b13c07f4",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Success of operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CategoryResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "And new cateory",
+                "description": "Add new category",
+                "operationId": "a390f0b064ae13296f5745b989c4d00f",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CategoryStoreRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success of operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "category id",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/categories/{id}": {
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Update cateogry",
+                "description": "Update category",
+                "operationId": "f3636fe525bafc2531c752b28cdb8e72",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "category id",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CategoryUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success of operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete category",
+                "description": "Delete category",
+                "operationId": "f8cf4c52eb611f800f7abf21d448f85d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "category id",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {},
+                "responses": {
+                    "204": {
+                        "description": "Success of operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegisterRequest": {
+                "title": "RegisterRequest",
+                "description": "RegisterRequest",
+                "properties": {
+                    "name": {
+                        "$ref": "#/components/schemas/User/properties/name"
+                    },
+                    "email": {
+                        "$ref": "#/components/schemas/User/properties/email"
+                    },
+                    "password": {
+                        "$ref": "#/components/schemas/User/properties/password"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryStoreRequest": {
+                "title": "CategoryStoreRequest",
+                "description": "CategoryStoreRequest",
+                "properties": {
+                    "name": {
+                        "$ref": "#/components/schemas/Category/properties/name"
+                    },
+                    "parent_id": {
+                        "$ref": "#/components/schemas/Category/properties/parent_id"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryUpdateRequest": {
+                "title": "CategoryUpdateRequest",
+                "description": "CategoryUpdateRequest",
+                "properties": {
+                    "name": {
+                        "$ref": "#/components/schemas/Category/properties/name"
+                    },
+                    "parent_id": {
+                        "$ref": "#/components/schemas/Category/properties/parent_id"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryResource": {
+                "title": "CategoryResource",
+                "description": "CategoryResource",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/Category/properties/id"
+                    },
+                    "name": {
+                        "$ref": "#/components/schemas/Category/properties/name"
+                    },
+                    "sub_categories": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "$ref": "#/components/schemas/Category/properties/id"
+                                },
+                                "name": {
+                                    "$ref": "#/components/schemas/Category/properties/name"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "created_at": {
+                        "$ref": "#/components/schemas/Category/properties/created_at"
+                    },
+                    "updated_at": {
+                        "$ref": "#/components/schemas/Category/properties/updated_at"
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "title": "Category",
+                "description": "Categories",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "format": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "parent_id": {
+                        "type": "number",
+                        "format": "integer"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "Users",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "format": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "remember_token": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": {
+        "bearerToken": {
+            "type": "http",
+            "scheme": "bearer",
+            "description": "Enter Bearer",
+            "in": "header"
+        }
+    }
+}

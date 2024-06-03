@@ -6,19 +6,27 @@ namespace App\Services\Categories;
 
 use App\Models\Category;
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CategoryService
 {
     public function getCategories(): Collection
     {
-        return Category::whereNull('parent_id')->get();
+        return Category::whereNull('parent_id')->with('children')->get();
+    }
+
+    public function index(): LengthAwarePaginator
+    {
+        return Category::leftJoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
+            ->select('categories.*', 'parents.name as parent_name')
+            ->paginate(5);
     }
 
     public function store(array $data): Category
     {
         return Category::create([
             'name' => $data['name'],
-            'parent_id' => $data['parent_id']
+            'parent_id' => $data['parent_id'],
         ]);
     }
 

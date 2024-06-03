@@ -18,13 +18,13 @@ class InstructorController extends Controller
 
     public function create()
     {
-        return view('users.becomeInstructor');
+        return view('users.instructorCreate');
     }
 
     public function store(instructorStoreRequest $request)
     {
         $data = $request->validated();
         $this->instructorService->store($data);
-        return \Redirect::route('admin.courses.index');
+        return \Redirect::route('instructor.courses.index');
     }
 }

@@ -4,6 +4,16 @@ namespace App\Http\Requests\Api\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     title="RegisterRequest",
+ *     schema="RegisterRequest",
+ *     description="RegisterRequest",
+ *     @OA\Property(property="name", type="string", ref="#/components/schemas/User/properties/name"),
+ *     @OA\Property(property="email", type="string", ref="#/components/schemas/User/properties/email"),
+ *     @OA\Property(property="password", type="string", ref="#/components/schemas/User/properties/password")
+ * )
+ */
 class RegisterRequest extends FormRequest
 {
     /**

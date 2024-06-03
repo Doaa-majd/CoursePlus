@@ -1,10 +1,22 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *     schema="Category",
+ *     title="Category",
+ *     description="Categories",
+ *     @OA\Property(property="id", type="number", format="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="parent_id", type="number", format="integer"),
+ *     @OA\Property(property="status", type="string"),
+ *     @OA\Property(property="created_at", type="date"),
+ *     @OA\Property(property="updated_at", type="date")
+ * )
+ */
 class Category extends Model
 {
     use HasFactory;

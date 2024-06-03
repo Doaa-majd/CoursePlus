@@ -30,6 +30,30 @@ class LoginController extends Controller
         return true;
     }
 
+    /**
+     * @OA\Post(
+     *      path="/api/login",
+     *      tags={"Auth"},
+     *      summary="Login",
+     *      description="Login",
+     *      @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              @OA\Property(property="email", type="string"),
+     *              @OA\Property(property="password", type="string")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success of operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="token_type", type="string"),
+     *              @OA\Property(property="access_token", type="string"),
+     *              @OA\Property(property="token_expires_at", type="date"),
+     *              @OA\Property(property="user_id", type="number")
+     *          )
+     *      )
+     * )
+     */
     protected function sendLoginResponse(Request $request)
     {
         $this->clearLoginAttempts($request);

@@ -24,7 +24,7 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', Course::class);
-        return view('admin.courses.index')->with('courses', $this->courseService->getCoursesByUserType());
+        return view('admin.courses.index')->with('courses', $this->courseService->getAllCourses());
     }
 
     public function create()

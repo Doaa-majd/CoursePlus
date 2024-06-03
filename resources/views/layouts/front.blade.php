@@ -87,8 +87,11 @@
                                       <i class="fa fa-sign-in"></i> {{__('Dashboard') }} </a>
                                       <br>
                                   @endif
-
-                                  <a class="menu-link" href="{{ route('profiles.create') }}">
+                                  @if (Auth::user()->role != 'user')
+                                  <a class="menu-link" href="{{ route('instructor.profile.index') }}">
+                                  @else
+                                    <a class="menu-link" href="{{ route('profiles.create') }}">
+                                  @endif
                                    <i class="fa fa-sign-in"></i> {{__('Profile') }} </a>
                                    <br>
                                   
@@ -120,7 +123,7 @@
                 <span class="fa fa-bars"></span>
               </button>
               <div class="logo">
-                <a class="navbar-brand" href="/"><img src=""
+                <a class="navbar-brand" href="/"><img src="{{ asset('front-assets/images/site-logo.png') }}"
                     alt=""></a>
               </div>
             </div>
@@ -180,7 +183,7 @@
 
                 
                 @if (Auth::user()->role == 'user')
-                <li><a class="btn btn-primary" href="{{ route('instructors.create') }}"><i class="fa fa-sign-in"></i> {{ __('Become an instructor') }} </a>
+                <li><a class="btn btn-primary" href="{{ route('instructors.get.create') }}"><i class="fa fa-sign-in"></i> {{ __('Become an instructor') }} </a>
                 </li>
                 @endif
 
@@ -193,6 +196,8 @@
         </div>
       </div>
     </header>
+    @yield('sidebar')
+
     @yield('content')
 
     <footer class="dark footer section">

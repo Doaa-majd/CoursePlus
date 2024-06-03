@@ -41,7 +41,7 @@
                          {{__('Lessons')}} </p>
                     <hr>
                     <p class="course-instructors rtl-inverse"><span> {{__('Instructor')}} :&nbsp;</span>
-                         {{ $instructor->fname .' '. $instructor->lname}}
+                        <a href="{{ route('instructor.profile.show', [$instructor->user_id]) }}"> {{ $instructor->fname .' '. $instructor->lname}} </a>
                     </p>
                     <hr>
                     <p class="course-price rtl-inverse"><span> {{__('Price')}} :&nbsp;</span>

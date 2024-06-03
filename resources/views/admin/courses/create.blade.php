@@ -138,7 +138,6 @@
     reader.onload = function(e) {
       $('#course-img').attr('src', e.target.result);
       $('#img64').attr('value', e.target.result);
-
     }
     
     reader.readAsDataURL(input.files[0]); // convert to base64 string
