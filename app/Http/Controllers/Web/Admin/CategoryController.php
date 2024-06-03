@@ -5,91 +5,71 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Services\Categories\CategoryService;
+use App\Http\Requests\Web\Categories\CategoryStoreRequest;
+use App\Http\Requests\Web\Categories\CategoryUpdateRequest;
 
 class CategoryController extends Controller
 {
+    protected $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
+
     public function index()
     {
-        //$this->authorize('viewAny',  Category::class);
-        //return DB::table('categories')->orderBy('created_at','DESC')->get();
-
-        $categories = Category::leftJoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
-            ->select('categories.*', 'parents.name as parent_name')
-            ->paginate(5);
-
-       // $categories = Category::orderBy('id', 'ASC')->get();
+        $this->authorize('viewAny', Category::class);
+        $categories = $this->categoryService->index();
         return view('admin.categories.index')->with('categories', $categories);
     }
 
     public function show(Category $category)
     {
-       /* return [
-            'data' => DB::table('categories')->where('id', '=' ,$id)->first(),
-        ];*/
-
-       // return DB::table('categories')->where('id', '=' ,$id)->get();
-       //$this->authorize('view', $category);
-
-        //return Category::where('id', '=' ,$id)->get();
+        $this->authorize('view', $category);
         return $category;
     }
 
     public function create()
     {
-        //$this->authorize('create', Category::class);
-
+        $this->authorize('create', Category::class);
         return view('admin.categories.create');
     }
 
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
-       // $this->authorize('create', Category::class);
+        $this->authorize('create', Category::class);
 
-        $this->checkRequest($request);
-        Category::create([
-            'name' => $request->name,
-            'parent_id' => $request->post('parent_id'),
-            'status' => $request->input('status'),
-        ]);
+        $data = $request->validated();
+        $category = $this->categoryService->store($data);
         return redirect()
         ->route('admin.categories.index')
-        ->with('alert.success', "Category \"{$request->name}\" created");
-
-        /* DB::table('categories')->insert([
-             'name' => 'category1',
-             'status' => 'published',
-             'parent_id' => null,
-             'created_at' => Date('Y-m-d H:i:s'),
-             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-         ]);
-
-         return DB::table('categories')->get();*/
+        ->with('alert.success', "Category \"{$category->name}\" created");
     }
+
     public function edit(Category $category)
     {
-        //$this->authorize('update', $category);
-        //$catEdit = Category::findOrFail($id);
+        $this->authorize('update', $category);
         return view('admin.categories.edit', [
             'category' => $category,
         ]);
-
     }
 
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        //$this->authorize('update', $category);
-        $this->checkRequest($request, $category->id);
-       // $category = Category::findOrFail($id);
-        $category->update($request->all());
+        $this->authorize('update', $category);
+       // $this->checkRequest($request, $category->id);
+        $data = $request->validated();
+        $this->categoryService->update($data, $category->id);
         return redirect()
         ->route('admin.categories.index')
         ->with('alert.success', "Category \"{$category->name}\" updated");
     }
 
-    public function delete(Category $category)
+    public function destroy(Category $category)
     {
-       // $this->authorize('delete', $category);
-       // $category = Category::findOrFail($id);
+        $this->authorize('delete', $category);
         $category->delete();
         return redirect()
         ->route('admin.categories.index')
@@ -102,29 +82,5 @@ class CategoryController extends Controller
         $table = $request->table;
         DB::table($table)->whereIn('id', explode(",", $ids))->delete();
         return response()->json(['success' => "Products Deleted successfully."]);
-    }
-
-    protected function checkRequest(Request $request, $except = 0)
-    {
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-                'min:3',
-                'unique:categories,name,'. $except,
-            ],
-            'parent_id' => [
-                'nullable',
-                'int',
-                'exists:categories,id',
-            ],
-            'status' => [
-                'required',
-                'string',
-                'in:published,draft',
-            ],
-
-        ]);
     }
 }

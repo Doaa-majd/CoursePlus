@@ -11,6 +11,7 @@ use App\Http\Controllers\web\Admin\PdfLessonController;
 use App\Http\Controllers\web\User\UserProfileController;
 use App\Http\Controllers\web\User\ProfileController;
 use App\Http\Controllers\web\User\InstructorController;
+use App\Http\Controllers\web\User\GetInstructorController;
 use App\Http\Controllers\web\Courses\UserCourseController;
 use App\Http\Controllers\web\Courses\CourseEnrollController;
 use App\Http\Controllers\web\Courses\CourseLessonController;
@@ -53,7 +54,7 @@ Route::group([
         Route::put('{category}', [CategoryController::class, 'update'])->name('update');
         Route::get('{category}/edit', [CategoryController::class, 'edit'])->name('edit');
         Route::post('/', [CategoryController::class, 'store'])->name('store');
-        Route::delete('{category}/delete', [CategoryController::class, 'delete'])->name('delete');
+        Route::delete('{category}/delete', [CategoryController::class, 'destroy'])->name('delete');
 
         Route::delete('CategoriesDeleteAll', [CategoryController::class, 'deleteAll'])->name('deleteAll');
     });
@@ -129,6 +130,38 @@ Route::group([
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 });
 
+
+Route::group([
+    'prefix' => 'instructor',
+    'namespace' => 'Instructor',
+    'as' => 'instructor.',
+    'middleware' => 'auth',
+], function () {
+    Route::prefix('courses')->as('courses.')->group(function () {
+        Route::get('/', [App\Http\Controllers\web\Instructor\CourseController::class, 'index'])->name('index');
+        Route::get('/create/step1', [App\Http\Controllers\web\Instructor\CourseController::class, 'createStep1'])->name('createStep1');
+        Route::get('/create/step2', [App\Http\Controllers\web\Instructor\CourseController::class, 'createStep2'])->name('createStep2');
+        Route::get('/create/complete-course/step3', [App\Http\Controllers\web\Instructor\CourseController::class, 'createCourseStep3'])
+            ->name('createCourseStep3');
+        Route::get('/create/complete-course/step4', [App\Http\Controllers\web\Instructor\CourseController::class, 'createCourseStep4'])
+            ->name('createCourseStep4');
+        Route::post('/', [App\Http\Controllers\web\Instructor\CourseController::class, 'store'])->name('store');
+        Route::get('/{course}', [App\Http\Controllers\web\Instructor\CourseController::class, 'show'])->name('show');
+        Route::put('/{course}', [App\Http\Controllers\web\Instructor\CourseController::class, 'update'])->name('update');
+      //  Route::delete('/{course}/delete', [CourseController::class, 'delete'])->name('delete');
+
+        Route::get('/{id}/sections/lectures', [App\Http\Controllers\web\Instructor\CourseLessonController::class, 'show'])
+            ->name('lessons.show');
+    });
+
+    Route::prefix('profile')->as('profile.')->group(function () {
+        Route::get('/index', [App\Http\Controllers\web\Instructor\ProfileController::class, 'index'])->name('index');
+        Route::get('/{id}', [App\Http\Controllers\web\Instructor\ProfileController::class, 'show'])->name('show');
+        Route::put('/', [App\Http\Controllers\web\Instructor\ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [App\Http\Controllers\web\Instructor\ProfileController::class, 'destroy'])->name('delete');
+    });
+});
+
 Route::group([
     'middleware' => 'auth'
 ], function () {
@@ -139,8 +172,10 @@ Route::group([
     });
 
     Route::prefix('instructors')->as('instructors.')->group(function () {
-        Route::get('/', [InstructorController::class, 'create'])->name('create');
+        Route::get('/create', [InstructorController::class, 'create'])->name('create');
         Route::post('/instructor', [InstructorController::class, 'store'])->name('store');
+
+        Route::get('/getInstructor', [GetInstructorController::class, 'create'])->name('get.create');
     });
 
     Route::prefix('courses')->as('courses.')->group(function () {

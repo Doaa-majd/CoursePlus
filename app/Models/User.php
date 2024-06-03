@@ -11,6 +11,22 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     title="User",
+ *     description="Users",
+ *     @OA\Property(property="id", type="number", format="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="email", type="string"),
+ *     @OA\Property(property="role", type="string"),
+ *     @OA\Property(property="email_verified_at", type="date"),
+ *     @OA\Property(property="password", type="string"),
+ *     @OA\Property(property="remember_token", type="string"),
+ *     @OA\Property(property="created_at", type="date"),
+ *     @OA\Property(property="updated_at", type="date")
+ * )
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;

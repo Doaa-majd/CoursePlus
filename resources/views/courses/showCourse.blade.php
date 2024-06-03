@@ -230,4 +230,5 @@
 
     @section('js')
     <script src="{{ asset('front-assets/js/showCourse.js') }}"></script>
+
     @endsection

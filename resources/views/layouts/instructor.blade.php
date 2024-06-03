@@ -18,7 +18,8 @@
 
   <!-- Custom styles for this template-->
   <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/instructor-styles.css') }}" rel="stylesheet">
+
   @if(\App::getLocale() == 'ar')
   <link rel="stylesheet" type="text/css" href="{{ asset('css/rtl.css') }}" />
   @endif
@@ -31,7 +32,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
@@ -59,18 +60,9 @@
       </div>
 
        <!-- Nav Item - Charts -->
-       @can('viewAny', App\Category::class)
-       <li class="nav-item">
-        <a class="nav-link" href=" {{ route('admin.categories.index') }} ">
-          <i class="fas fa-list-ul"></i>
-          <span>{{__('Categories')}}</span></a>
-      </li>
-      @endcan
-
-       <!-- Nav Item - Charts -->
        @can('viewAny', App\Course::class)
        <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.courses.index') }}">
+        <a class="nav-link" href="{{ route('instructor.courses.index') }}">
           <i class="fas fa-video"></i>
           <span>{{__('Courses')}}</span></a>
       </li>
@@ -90,48 +82,7 @@
           <span> {{__('Coupons')}} </span></a>
       </li>
       @endif
-
-      @if(Auth::user()->role == 'admin')
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.questions.index') }}">
-          <i class="fas fa-question"></i>
-          <span> {{__('Questions')}} </span></a>
-      </li>
-      
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.orders.index') }}">
-          <i class="fa fa-address-card"></i>
-          <span> {{__('Orders')}} </span></a>
-      </li>
-      
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.users.index') }}">
-          <i class="fas fa-users"></i>
-          <span>{{__('Users')}} </span></a>
-      </li>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" 
-        aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>{{__('Settings')}} </span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{__('Learning plus pages:')}} </h6>
-            <a class="collapse-item" href=" {{ route('admin.settings.general.index') }}">{{__('General')}} </a>
-            <a class="collapse-item" href="{{ route('admin.settings.home.index') }}">{{__('Home')}} </a>
-            <a class="collapse-item" href="{{ route('admin.settings.about.index') }}">{{__('About')}} </a>
-          </div>
-        </div>
-      </li>
-
-      @endif
-
+  
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
@@ -209,11 +160,7 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-              @if (Auth::user()->role != 'user')
-              <a class="dropdown-item" href="{{ route('instructor.profile.index')}}">
-              @else
-              <a class="dropdown-item" href="{{ route('profiles.create')}}">
-                @endif
+                <a class="dropdown-item" href="{{ route('profiles.create')}}">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   {{ __('Profile') }}
                 </a>

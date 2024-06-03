@@ -19,6 +19,21 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
+ /**
+ * @OA\Get(
+ *     path="/api/admin/categories",
+ *     tags={"Categories"},
+ *     security={{"bearerToken":{}}},
+ *     description="Get all categories",
+ *     summary="Get all categories",
+ *     @OA\RequestBody(),
+ *     @OA\Response(
+ *          response=200,
+ *          description="Success of operation",
+ *          @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/CategoryResource"))
+ *     )
+ * )
+ */
     public function index(Request $request)
     {
         return response()->json(
@@ -27,6 +42,26 @@ class CategoryController extends Controller
             )
         );
     }
+
+    /**
+     * @OA\Post(
+     *      path="/api/admin/categories",
+     *      tags={"Categories"},
+     *      security={{"bearerToken":{}}},
+     *      summary="And new cateory",
+     *      description="Add new category",
+     *      @OA\RequestBody(
+     *          @OA\JsonContent(ref="#/components/schemas/CategoryStoreRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success of operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="string", description="category id")
+     *          )
+     *      )
+     * )
+     */
 
     public function store(CategoryStoreRequest $request)
     {
@@ -37,6 +72,33 @@ class CategoryController extends Controller
         ], 201);
     }
 
+    /**
+    * @OA\Put(
+    *      path="/api/admin/categories/{id}",
+    *      tags={"Categories"},
+    *      security={{"bearerToken":{}}},
+    *      summary="Update cateogry",
+    *      description="Update category",
+    *      @OA\Parameter(
+    *          name="id",
+    *          description="category id",
+    *          in="path",
+    *          required=true,
+    *          @OA\Schema(
+    *              type="number"
+    *          ),
+    *      ),
+    *      @OA\RequestBody(
+    *         @OA\JsonContent(ref="#/components/schemas/CategoryUpdateRequest")
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Success of operation",
+    *          @OA\JsonContent()
+    *      )
+    * )
+    */
+
     public function update(CategoryUpdateRequest $request, int $id)
     {
         $this->validateId($id);
@@ -44,6 +106,32 @@ class CategoryController extends Controller
         $this->categoryService->update($data, $id);
         return response()->json([]);
     }
+
+         /**
+     * @OA\Delete(
+     *      path="/api/admin/categories/{id}",
+     *      tags={"Categories"},
+     *      security={{"bearerToken":{}}},
+     *      summary="Delete category",
+     *      description="Delete category",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="category id",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="number"
+     *          ),
+     *      ),
+     *      @OA\RequestBody(
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Success of operation",
+     *          @OA\JsonContent()
+     *      )
+     * )
+     *
+     */
 
     public function destroy(int $id)
     {

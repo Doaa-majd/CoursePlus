@@ -29,6 +29,18 @@ Route::group(['middleware' => ['guest:api']], function () {
 });
 
 Route::group([
+    'prefix' => 'admin',
+   // 'middleware' => 'auth:api',
+], function () {
+    Route::group(['prefix' => '/categories'], function () {
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::post('/', [CategoryController::class, 'store']);
+        Route::put('/{id}', [CategoryController::class, 'update']);
+        Route::delete('/{id}', [CategoryController::class, 'destroy']);
+    });
+});
+
+Route::group([
     'prefix' => '/Lessons',
 ], function () {
     Route::post('/', [LessonController::class, 'store']);
@@ -51,15 +63,6 @@ Route::group([
     Route::post('/', [SectionController::class, 'store']);
     Route::put('/{id}', [SectionController::class, 'update']);
     Route::delete('/{id}', [SectionController::class, 'destroy']);
-});
-
-Route::group([
-    'prefix' => '/Categories',
-], function () {
-    Route::get('/', [CategoryController::class, 'index']);
-    Route::post('/', [CategoryController::class, 'store']);
-    Route::put('/{id}', [CategoryController::class, 'update']);
-    Route::delete('/{id}', [CategoryController::class, 'destroy']);
 });
 
 Route::group([
