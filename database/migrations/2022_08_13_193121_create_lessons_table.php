@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('section_id');
             $table->string('name')->nullable();
+            $table->longText('description')->nullable();
+            $table->string('attachment_path')->nullable();
             $table->integer('lessonable_id')->nullable();
             $table->string('lessonable_type')->nullable();
             $table->timestamps();

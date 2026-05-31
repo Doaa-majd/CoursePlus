@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Web\Courses\LessonStoreRequest;
+use App\Http\Requests\Web\Courses\VideoLessonStoreRequest;
 use App\Http\Requests\Web\Courses\LessonUpdateRequest;
 use App\Services\Courses\VideoLessonService;
 use App\Models\Video;
@@ -20,7 +20,7 @@ class VideoLessonController extends Controller
         $this->videoLessonService = $videoLessonService;
     }
 
-    public function store(LessonStoreRequest $request)
+    public function store(VideoLessonStoreRequest $request)
     {
         $data = $request->validated();
         $lesson = $this->videoLessonService->store($data);

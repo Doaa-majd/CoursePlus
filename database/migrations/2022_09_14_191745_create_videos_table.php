@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('path')->nullable();
-            $table->string('youtube_link')->nullable();
+            $table->string('external_link')->nullable();
             $table->string('type')->nullable();
+            $table->string('duration')->nullable();
             $table->boolean('processed')->default(0);
             $table->timestamps();
         });

@@ -82,6 +82,16 @@ class PdfLessonService
             'extension' => $file->extension()
         ];
     }
+    public function uploadPdfBase64(array $data)
+    {
+        $name = 'Course-' . $data['course_id'] . '-' . $data['name'] . '.' .
+             explode('/', explode(':', substr($data['pdf64'], 0, strpos($data['pdf64'], ';')))[1])[1];
+        $pdf64Data = substr($data['pdf64'], strpos($data['pdf64'], ',') + 1);
+
+        $pdf64Data = base64_decode($pdf64Data);
+        \Storage::disk('attachement')->put($name, $pdf64Data);
+        return $name;
+    }
 
     public function delete($id)
     {
