@@ -3,8 +3,9 @@
 namespace App\Http\Requests\Web\Courses;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\Base64;
 
-class LessonStoreRequest extends FormRequest
+class VideoLessonStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +28,20 @@ class LessonStoreRequest extends FormRequest
             'name' => 'required|string|max:255|min:3',
             'course_id' => 'required|numeric|exists:courses,id',
             'section_id' => 'required|numeric|exists:sections,id',
-            'video' => 'required|string'
+            'video64' => ['nullable', new Base64([
+                'video/mp4',
+                'video/x-msvideo',
+                'video/x-ms-wmv',
+                'video/mpeg',
+                'video/quicktime',
+                'video/webm',
+                'video/3gpp',
+                'video/ogg',
+            ])],
+            'external_url' => 'nullable|string',
+            'description' => 'nullable|string|max:400,min:10',
+            'duration' => 'required|string',
+            'pdf64' => ['nullable', new Base64(['application/pdf'])]
         ];
     }
 }

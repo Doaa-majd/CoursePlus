@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.frontInstructor')
 
 @section('content')
 @if ($errors->any())
@@ -25,7 +25,9 @@
       </div>
       <div class="col-md-9 course-sections">
         <div class="add-section">
-          <i class="fa fa-plus"></i> {{__('Add Section')}} </a>
+          <a href="#" id="{{ $course->id }}" data-toggle="modal" data-target="#addsection" class="add-section-modal">
+            <i class="fa fa-plus"></i> {{__('Add Section')}} 
+          </a>
         </div>
         @foreach($course->sections as $section)
         <section class="section">
@@ -43,7 +45,7 @@
           @foreach($section->lessones as $lesson)
             <div class="lesson">
               <div class="lesson-name">
-              {{$lesson->name}}
+              <i class="fa fa-video-camera"></i> {{$lesson->name}}
               </div>
               <div class="lesson-action2" style="display:none">
                 <a href="#" data-toggle="modal" data-target="#addsection" data-sectionId="{{$section->id}}" id="{{$course->id}}" data-name="{{$section->name}}" 
@@ -71,9 +73,13 @@
     </div>
   </div>
 </section>
+@include('includes.addSection')
+@include('includes.addVideo')
 
 @endsection
 
 @section('js')
 <script src="{{ asset('front-assets/js/courses.js') }}"></script>
+<script src="{{ asset('js/course.js') }}"></script>
+
 @endsection

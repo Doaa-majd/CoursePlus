@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.frontInstructor')
 
 @section('content')
 @if ($errors->any())

@@ -7,15 +7,18 @@ namespace App\Services\Courses;
 use App\Models\Lesson;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Courses\VideoService;
+use App\Services\Courses\pdfLessonService;
 use App\Models\Video;
 
 class VideoLessonService
 {
     protected $videoService;
+    protected $pdfLessonService;
 
-    public function __construct(VideoService $videoService)
+    public function __construct(VideoService $videoService, pdfLessonService $pdfLessonService)
     {
         $this->videoService = $videoService;
+        $this->pdfLessonService = $pdfLessonService;
     }
 
     public function storeLesson(array $data): Lesson
@@ -71,21 +74,19 @@ class VideoLessonService
 
     public function store(array $data)
     {
-        $name = $this->videoService->uploadVideoBase64($data);
-        $data['video'] = $name;
-
+        $pdfName = null;
         \DB::beginTransaction();
         try {
-            $video = Video::create([
-                'path' => $name,
-            ]);
-
+            $video = $this->handleVideo($data);
+            $pdfName = $this->handlePdf($data);
             $lesson = Lesson::create([
                 'name' => $data['name'],
                 'course_id' => $data['course_id'],
                 'section_id' => $data['section_id'],
-                'lessonable_id' => $video->id,
-                'lessonable_type' => Lesson::LESSONABLE_TYPE[Lesson::VIDEO_TYPE]
+                'description' => $data['description'],
+                'lessonable_id' => $video ? $video->id : null,
+                'lessonable_type' => Lesson::LESSONABLE_TYPE[Lesson::VIDEO_TYPE],
+                'attachment_path' => $pdfName
             ]);
             \DB::commit();
             return $lesson;
@@ -93,6 +94,34 @@ class VideoLessonService
             \DB::rollBack();
             throw $e;
         }
+    }
+
+    private function handleVideo(array $data)
+    {
+        if (isset($data['video64'])) {
+            $name = $this->videoService->uploadVideoBase64($data);
+            return Video::create([
+                'path' => $name,
+                'duration' => $data['duration']
+            ]);
+        }
+
+        if (isset($data['external_url'])) {
+            return Video::create([
+                'external_link' => $data['external_url'],
+                'duration' => $data['duration']
+            ]);
+        }
+
+        return null;
+    }
+    private function handlePdf(array $data)
+    {
+        if (isset($data['pdf64'])) {
+            return $this->pdfLessonService->uploadPdfBase64($data);
+        }
+
+        return null;
     }
 
     public function update(array $data)
